@@ -5,25 +5,32 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
+@ToString
 @Entity // Indica ao JPA que existe uma tabela no banco de dados que está mapeada a essa  classe
 @Table(name = "produtos", // nomeia a tabela no banco de dados
 		indexes = { @Index(name = "id_produto", columnList = "id") })
-// uniqueConstraints = { @UniqueConstraint(name = "nome_unique", columnNames =
-// "nome") }
+// uniqueConstraints = { @UniqueConstraint(name = "nome_unique", columnNames = "nome") }
 
 public class Produto {
 	
+	public Produto() {
+	}
+		
+	public Produto(Long id) {
+		this.id = id;
+	}
+
 	public Produto(String nome, String descricao, BigDecimal preco, Categoria categoria) {
 		this.nome = nome;
 		this.descricao = descricao;
@@ -51,7 +58,7 @@ public class Produto {
 
 	@Getter
 	@Setter
-	@Enumerated(EnumType.STRING)
+	@ManyToOne
 	private Categoria categoria;
 
 	@Getter
