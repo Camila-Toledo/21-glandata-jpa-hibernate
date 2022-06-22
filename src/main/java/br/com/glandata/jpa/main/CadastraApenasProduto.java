@@ -10,36 +10,26 @@ import br.com.glandata.jpa.model.Categoria;
 import br.com.glandata.jpa.model.Produto;
 import br.com.glandata.jpa.util.JPAUtil;
 
-public class CadastraProduto {
+public class CadastraApenasProduto {
 
 	public static void main(String[] args) {
 
-		// Cria o objeto categoria
-		Categoria categoria = new Categoria("Celulares");
-
 		// Cria o objeto produto
-		Produto produto = new Produto("IPHONE 13 Ultra", "Apple Iphone", new BigDecimal("10000.00"), categoria);
+		Produto produto = new Produto("Samsung Galaxy S22", "Smartphone Samsung 5G", new BigDecimal("8000.00"),
+				new Categoria(3L));
+		Produto produto2 = new Produto("Iphone 13", "Smartphone Apple 5G", new BigDecimal("9500.00"),
+				new Categoria(3L));
 
 		// Invoca o gerente de conexão
 		EntityManager em = JPAUtil.getEntityManager();
 
 		// Instancia as classes DAO
 		ProdutoDao produtoDao = new ProdutoDao(em);
-		CategoriaDao categoriaDao = new CategoriaDao(em);
 
-		// Inicia a transação
 		em.getTransaction().begin();
-
-		// Salva a categoria em persist(categoria)
-		categoriaDao.cadastrar(categoria);
-
-		// Salva o produto em persist(produto)
 		produtoDao.cadastrar(produto);
-
-		// Commita os valores
+		produtoDao.cadastrar(produto2);
 		em.getTransaction().commit();
-
-		// Fecha a conexão
 		em.close();
 
 	}
